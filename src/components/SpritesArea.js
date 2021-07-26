@@ -1,8 +1,12 @@
 import React, { useState } from "react";
-import CatSprite from "./CatSprite";
 import Icon from "./Icon";
 
-function SpritesArea({ selectedSprites, setShowModal }) {
+function SpritesArea({
+  selectedSprites,
+  setShowModal,
+  currentSprite,
+  setCurrentSprite,
+}) {
   const [addSpriteHoveredOn, setAddSpriteHoveredOn] = useState({
     show: false,
     text: "",
@@ -24,13 +28,29 @@ function SpritesArea({ selectedSprites, setShowModal }) {
       <div className="all-sprites-top-bar bg-white p-2">
         <div className="p-1">
           <span className="m-2 text-sm font-bold">Sprite</span>
-          <input className="border-2 border-gray-200 focus:border-blue-300 p-2"></input>
+          <input
+            className="border-2 border-gray-200 focus:border-blue-300 p-2"
+            value={currentSprite.name}
+          ></input>
         </div>
       </div>
       <div className="flex p-3">
         {selectedSprites.map((sprite) => (
-          <div className="p-2 border-gray-300 border-4 rounded-lg w-max transform scale-75 bg-gray-100 hover:border-blue-400 hover:bg-white">
-            {sprite}
+          <div
+            className={`border-gray-300 border-4 rounded-lg w-max transform scale-75 bg-gray-100 hover:border-blue-400 hover:bg-white ${
+              currentSprite.name === sprite.name ? "border-blue-500" : ""
+            }`}
+          >
+            <div className="p-2">{sprite.component}</div>
+            <div
+              className={`text-center p-2 ${
+                currentSprite.name === sprite.name
+                  ? "bg-blue-400 text-white"
+                  : ""
+              }`}
+            >
+              {sprite.name}
+            </div>
           </div>
         ))}
       </div>
@@ -45,7 +65,6 @@ function SpritesArea({ selectedSprites, setShowModal }) {
             {addSpriteHoveredOn.text}
           </span>
         ) : null}
-
         <Icon
           name="plus"
           size="50"
