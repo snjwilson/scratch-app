@@ -3,12 +3,14 @@ import Sidebar from "./components/Sidebar";
 import MidArea from "./components/MidArea";
 import PreviewArea from "./components/PreviewArea";
 import SpritesArea from "./components/SpritesArea";
+import CatSprite from "./components/CatSprite";
 import Modal from "./components/Modal";
 import "./App.css";
 
 export default function App() {
   const [category, setCategory] = useState("motion");
   const [showModal, setShowModal] = useState(false);
+  const [selectedSprites, setSelectedSprites] = useState([<CatSprite />]);
   const dragged = useRef(null);
 
   // HANDLE DRAG START OF ALL DRAGGABLE ELEMENTS
@@ -55,7 +57,10 @@ export default function App() {
           </div>
           <div className="w-1/3 h-full overflow-hidden flex flex-col border-t border-l border-gray-200 rounded-tl-xl ml-2">
             <PreviewArea />
-            <SpritesArea setShowModal={setShowModal} />
+            <SpritesArea
+              setShowModal={setShowModal}
+              selectedSprites={selectedSprites}
+            />
           </div>
         </div>
       </div>

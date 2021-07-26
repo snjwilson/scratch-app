@@ -1,7 +1,8 @@
 import React, { useState } from "react";
+import CatSprite from "./CatSprite";
 import Icon from "./Icon";
 
-function SpritesArea({ setShowModal }) {
+function SpritesArea({ selectedSprites, setShowModal }) {
   const [addSpriteHoveredOn, setAddSpriteHoveredOn] = useState({
     show: false,
     text: "",
@@ -19,7 +20,20 @@ function SpritesArea({ setShowModal }) {
     setAddSpriteHoveredOn({ show: false, text: "" });
   }
   return (
-    <div className="h-1/2 mt-4 bg-white border-t rounded-tl-xl">
+    <div className="h-1/2 mt-4 bg-gray-100 border-t rounded-tl-xl">
+      <div className="all-sprites-top-bar bg-white p-2">
+        <div className="p-1">
+          <span className="m-2 text-sm font-bold">Sprite</span>
+          <input className="border-2 border-gray-200 focus:border-blue-300 p-2"></input>
+        </div>
+      </div>
+      <div className="flex p-3">
+        {selectedSprites.map((sprite) => (
+          <div className="p-2 border-gray-300 border-4 rounded-lg w-max transform scale-75 bg-gray-100 hover:border-blue-400 hover:bg-white">
+            {sprite}
+          </div>
+        ))}
+      </div>
       <div
         className="border-8 rounded-full border-white transition ease-in hover:border-blue-100 absolute bottom-8 right-8"
         onMouseEnter={() => handleMouseEnter("Choose a sprite")}
