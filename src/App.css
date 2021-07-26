@@ -14,7 +14,6 @@ body::-webkit-scrollbar-thumb {
 /* width */
 ::-webkit-scrollbar {
   width: 0.5rem;
-  height: 5rem;
   border-radius: 2rem;
 }
 
