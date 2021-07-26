@@ -1,20 +1,23 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Sidebar from "./components/Sidebar";
 import MidArea from "./components/MidArea";
 import PreviewArea from "./components/PreviewArea";
 import SpritesArea from "./components/SpritesArea";
 import Modal from "./components/Modal";
+import "./App.css";
 
 export default function App() {
   const [category, setCategory] = useState("motion");
   const [showModal, setShowModal] = useState(false);
   const dragged = useRef(null);
 
+  // HANDLE DRAG START OF ALL DRAGGABLE ELEMENTS
   function handleDragStart(event) {
     let draggedFromSideBar = true;
     if (event.target.parentNode.id === "main") {
       draggedFromSideBar = false;
     }
+    // REFERENCE TO DRAGGED ELEMENT
     dragged.current = {
       element: event.target,
       innerClickX: event.clientX - event.target.getBoundingClientRect().x,
@@ -22,6 +25,19 @@ export default function App() {
       draggedFromSideBar,
     };
   }
+
+  useEffect(() => {
+    const elementToBeScrolled = document.getElementById("all-blocks");
+    if (category === "motion") {
+      elementToBeScrolled.scroll(0, 0);
+    } else if (category === "looks") {
+      elementToBeScrolled.scroll(0, 280);
+    } else if (category === "control") {
+      elementToBeScrolled.scroll(0, 500);
+    } else if (category === "events") {
+      elementToBeScrolled.scroll(0, 900);
+    }
+  }, [category]);
 
   return (
     <>
