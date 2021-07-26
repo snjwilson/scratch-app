@@ -57,11 +57,14 @@ export default function Sidebar({
           }`}
           onClick={() => setCategory("events")}
         >
-          <div className="rounded-full bg-yellow-200 w-6 h-6 mx-auto"></div>
+          <div className="rounded-full bg-yellow-300 w-6 h-6 mx-auto"></div>
           <p>Events</p>
         </div>
       </div>
-      <div className="w-60 flex-none h-full overflow-y-auto flex flex-col items-start p-2 border-r border-gray-200">
+      <div
+        id="all-blocks"
+        className="w-60 flex-none h-full overflow-y-auto flex flex-col items-start p-2 border-r border-gray-200"
+      >
         <div className="font-bold"> {"Motion"} </div>
         <div
           className="flex flex-row flex-wrap bg-blue-500 text-white px-2 py-1 my-2 text-sm cursor-pointer"
@@ -184,9 +187,52 @@ export default function Sidebar({
         >
           {"Hide"}
         </div>
-        <div className="font-bold"> {"Events"} </div>
+        <div className="font-bold"> {"Control"} </div>
         <div
           className="flex flex-row flex-wrap bg-yellow-500 text-white px-2 py-1 my-2 text-sm cursor-pointer"
+          draggable
+          onDragStart={handleDragStart}
+        >
+          {"Wait 1 second"}
+        </div>
+        <div
+          className="flex flex-row flex-wrap bg-yellow-500 text-white px-2 py-1 my-2 text-sm cursor-pointer"
+          draggable
+          onDragStart={handleDragStart}
+        >
+          {"wait 5 seconds"}
+        </div>
+        <div
+          className="flex flex-row flex-wrap bg-yellow-500 text-white px-2 py-1 my-2 text-sm cursor-pointer"
+          draggable
+          onDragStart={handleDragStart}
+        >
+          {"Stop all"}
+        </div>
+        <div
+          className="flex flex-row flex-wrap bg-yellow-500 text-white px-2 py-1 my-2 text-sm cursor-pointer"
+          draggable
+          onDragStart={handleDragStart}
+        >
+          {"When I start as a clone"}
+        </div>
+        <div
+          className="flex flex-row flex-wrap bg-yellow-500 text-white px-2 py-1 my-2 text-sm cursor-pointer"
+          draggable
+          onDragStart={handleDragStart}
+        >
+          {"Create clone of myself"}
+        </div>
+        <div
+          className="flex flex-row flex-wrap bg-yellow-500 text-white px-2 py-1 my-2 text-sm cursor-pointer"
+          draggable
+          onDragStart={handleDragStart}
+        >
+          {"delete this clone"}
+        </div>
+        <div className="font-bold"> {"Events"} </div>
+        <div
+          className="flex flex-row flex-wrap bg-yellow-300 text-white px-2 py-1 my-2 text-sm cursor-pointer"
           draggable
           onDragStart={handleDragStart}
         >
@@ -195,11 +241,25 @@ export default function Sidebar({
           {"clicked"}
         </div>
         <div
-          className="flex flex-row flex-wrap bg-yellow-500 text-white px-2 py-1 my-2 text-sm cursor-pointer"
+          className="flex flex-row flex-wrap bg-yellow-300 text-white px-2 py-1 my-2 text-sm cursor-pointer"
           draggable
           onDragStart={handleDragStart}
         >
           {"When this sprite clicked"}
+        </div>
+        <div
+          className="flex flex-row flex-wrap bg-yellow-300 text-white px-2 py-1 my-2 text-sm cursor-pointer"
+          draggable
+          onDragStart={handleDragStart}
+        >
+          {"When space key pressed"}
+        </div>
+        <div
+          className="flex flex-row flex-wrap bg-yellow-300 text-white px-2 py-1 my-2 text-sm cursor-pointer"
+          draggable
+          onDragStart={handleDragStart}
+        >
+          {"broadcast message1 and wait"}
         </div>
       </div>
     </div>
