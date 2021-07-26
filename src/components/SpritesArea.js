@@ -34,9 +34,13 @@ function SpritesArea({
           ></input>
         </div>
       </div>
-      <div className="flex p-3">
-        {selectedSprites.map((sprite) => (
+      <div className="flex w-max p-3">
+        {selectedSprites.map((sprite, index) => (
           <div
+            onClick={() => {
+              setCurrentSprite(sprite);
+            }}
+            key={`sprites-area-${index}`}
             className={`border-gray-300 border-4 rounded-lg w-max transform scale-75 bg-gray-100 hover:border-blue-400 hover:bg-white ${
               currentSprite.name === sprite.name ? "border-blue-500" : ""
             }`}
@@ -55,7 +59,7 @@ function SpritesArea({
         ))}
       </div>
       <div
-        className="border-8 rounded-full border-white transition ease-in hover:border-blue-100 absolute bottom-8 right-8"
+        className="transition ease-in absolute bottom-8 right-8"
         onMouseEnter={() => handleMouseEnter("Choose a sprite")}
         onMouseLeave={handleMouseLeave}
         onClick={handleClick}

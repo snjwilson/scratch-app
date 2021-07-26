@@ -16,18 +16,21 @@ export default function App() {
   const dragged = useRef(null);
 
   // HANDLE DRAG START OF ALL DRAGGABLE ELEMENTS
-  function handleDragStart(event) {
+  function handleDragStart(event, data) {
     let draggedFromSideBar = true;
-    if (event.target.parentNode.id === "main") {
+    console.log(event.target.parentNode.id);
+    if (event.target.parentNode.id.match(/main-outer/)) {
       draggedFromSideBar = false;
     }
     // REFERENCE TO DRAGGED ELEMENT
     dragged.current = {
       element: event.target,
+      data,
       innerClickX: event.clientX - event.target.getBoundingClientRect().x,
       innerClickY: event.clientY - event.target.getBoundingClientRect().y,
       draggedFromSideBar,
     };
+    event.dataTransfer.effectAllowed = "move";
   }
 
   useEffect(() => {
@@ -35,11 +38,11 @@ export default function App() {
     if (category === "motion") {
       elementToBeScrolled.scroll(0, 0);
     } else if (category === "looks") {
-      elementToBeScrolled.scroll(0, 280);
+      elementToBeScrolled.scroll(0, 220);
     } else if (category === "control") {
       elementToBeScrolled.scroll(0, 500);
     } else if (category === "events") {
-      elementToBeScrolled.scroll(0, 900);
+      elementToBeScrolled.scroll(0, 500);
     }
   }, [category]);
 
@@ -60,8 +63,16 @@ export default function App() {
               setCategory={setCategory}
               dragged={dragged}
               handleDragStart={handleDragStart}
+              codeBlocks={codeBlocks}
+              setCodeBlocks={setCodeBlocks}
             />{" "}
-            <MidArea dragged={dragged} handleDragStart={handleDragStart} />
+            <MidArea
+              dragged={dragged}
+              handleDragStart={handleDragStart}
+              codeBlocks={codeBlocks}
+              setCodeBlocks={setCodeBlocks}
+              currentSprite={currentSprite}
+            />
           </div>
           <div className="w-1/3 h-full overflow-hidden flex flex-col border-t border-l border-gray-200 rounded-tl-xl ml-2">
             <PreviewArea />

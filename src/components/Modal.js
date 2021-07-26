@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import Icon from "./Icon";
-import CatSprite from "./CatSprite";
 import allSprites from "./allSprites";
 
 function Modal({ setShowModal, selectedSprites, setSelectedSprites }) {
@@ -20,20 +19,20 @@ function Modal({ setShowModal, selectedSprites, setSelectedSprites }) {
         </div>
       </div>
       <div className="all-sprites flex">
-        {allSprites.map((spriteObj) => (
-          <div
-            className="p-2 border-gray-300 border-2 hover:border-blue-300 m-2 cursor-pointer"
-            onClick={() => handleSelection(spriteObj)}
-          >
-            {spriteObj.component}
-          </div>
-        ))}
-        {/* <div className="p-2 border-gray-300 border-2 hover:border-blue-300 m-2 cursor-pointer">
-          <CatSprite />
-        </div>
-        <div className="p-2 border-gray-300 border-2 hover:border-blue-300 m-2 cursor-pointer">
-          <CatSprite />
-        </div> */}
+        {allSprites.map((spriteObj) => {
+          if (
+            !selectedSprites.find((sprite) => sprite.name === spriteObj.name)
+          ) {
+            return (
+              <div
+                className="p-2 border-gray-300 border-2 hover:border-blue-300 m-2 cursor-pointer"
+                onClick={() => handleSelection(spriteObj)}
+              >
+                {spriteObj.component}
+              </div>
+            );
+          }
+        })}
       </div>
     </div>
   );

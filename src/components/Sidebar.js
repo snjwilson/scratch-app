@@ -1,11 +1,14 @@
 import React from "react";
-import Icon from "./Icon";
+import categories from "../categories";
+import colours from "../colours";
 
 export default function Sidebar({
   category,
   setCategory,
   dragged,
   handleDragStart,
+  codeBlocks,
+  setCodeBlocks,
 }) {
   function handleDrop(event) {
     event.preventDefault();
@@ -17,6 +20,25 @@ export default function Sidebar({
   function handleDragOver(event) {
     event.preventDefault();
   }
+
+  function handleDragEnd(event) {
+    event.preventDefault();
+    console.log(`Drag ended`);
+    const newCodeBlocks = [...codeBlocks];
+    newCodeBlocks.map((blocks) => {
+      return blocks.map((block) => {
+        block.valid = true;
+        return block;
+      });
+    });
+
+    setCodeBlocks(newCodeBlocks);
+  }
+
+  function capitalizeFirstLetter(str) {
+    return str[0].toUpperCase() + str.slice(1).toLowerCase();
+  }
+
   return (
     <div
       className="h-full flex flex-row"
@@ -24,48 +46,59 @@ export default function Sidebar({
       onDragOver={handleDragOver}
     >
       <div className="w-15 overflow-y-auto flex flex-col items-starts border-r border-gray-200">
-        <div
-          className={`text-center text-xs hover:text-blue-400 cursor-pointer w-full p-1 mb-1 ${
-            category === "motion" ? "bg-gray-300" : ""
-          }`}
-          onClick={() => setCategory("motion")}
-        >
-          <div className="rounded-full bg-blue-500 w-6 h-6 mx-auto"></div>
-          <p>Motion</p>
-        </div>
-        <div
-          className={`text-center text-xs hover:text-blue-400 cursor-pointer w-full p-1 my-1 ${
-            category === "looks" ? "bg-gray-300" : ""
-          }`}
-          onClick={() => setCategory("looks")}
-        >
-          <div className="rounded-full bg-purple-500 w-6 h-6 mx-auto"></div>
-          <p>Looks</p>
-        </div>
-        <div
-          className={`text-center text-xs hover:text-blue-400 cursor-pointer w-full p-1 my-1 ${
-            category === "control" ? "bg-gray-300" : ""
-          }`}
-          onClick={() => setCategory("control")}
-        >
-          <div className="rounded-full bg-yellow-500 w-6 h-6 mx-auto"></div>
-          <p>Control</p>
-        </div>
-        <div
-          className={`text-center text-xs hover:text-blue-400 cursor-pointer w-full p-1 my-1 ${
-            category === "events" ? "bg-gray-300" : ""
-          }`}
-          onClick={() => setCategory("events")}
-        >
-          <div className="rounded-full bg-yellow-300 w-6 h-6 mx-auto"></div>
-          <p>Events</p>
-        </div>
+        {Object.keys(categories).map((categoryType, index) => {
+          return (
+            <div
+              key={index}
+              className={`text-center text-xs hover:text-blue-400 cursor-pointer w-full p-1 mb-1 ${
+                category === categoryType ? "bg-gray-300" : ""
+              }`}
+              onClick={() => setCategory(categoryType)}
+            >
+              <div
+                className={`rounded-full ${colours[categoryType]} w-6 h-6 mx-auto`}
+              ></div>
+              <p>{categoryType}</p>
+            </div>
+          );
+        })}
       </div>
       <div
         id="all-blocks"
         className="w-60 flex-none h-full overflow-y-auto flex flex-col items-start p-2 border-r border-gray-200"
       >
-        <div className="font-bold"> {"Motion"} </div>
+        {Object.keys(categories).map((categoryType, mainIndex) => {
+          const blocksHeader = (
+            <div className="font-bold" key={`${mainIndex}-sidebar-header`}>
+              {capitalizeFirstLetter(categoryType)}
+            </div>
+          );
+          const blocks = categories[categoryType].map((type, index) => {
+            return (
+              <div
+                key={`${mainIndex}-${index}-sidebar`}
+                className={`flex flex-row flex-wrap ${colours[categoryType]} text-white px-2 py-1 my-2 text-sm cursor-pointer`}
+                draggable
+                onDragStart={(event) =>
+                  handleDragStart(event, {
+                    category: categoryType,
+                    subCategory: index,
+                  })
+                }
+                onDragEnd={handleDragEnd}
+              >
+                {type.inner}
+              </div>
+            );
+          });
+          return (
+            <>
+              {blocksHeader}
+              {blocks}
+            </>
+          );
+        })}
+        {/* <div className="font-bold"> {"Motion"} </div>
         <div
           className="flex flex-row flex-wrap bg-blue-500 text-white px-2 py-1 my-2 text-sm cursor-pointer"
           draggable
@@ -260,7 +293,7 @@ export default function Sidebar({
           onDragStart={handleDragStart}
         >
           {"broadcast message1 and wait"}
-        </div>
+        </div> */}
       </div>
     </div>
   );
