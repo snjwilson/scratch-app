@@ -9,29 +9,6 @@ export default function MidArea({
   setCodeBlocks,
   currentSprite,
 }) {
-  function handleDrop(event) {
-    event.preventDefault();
-    if (dragged.current.draggedFromSideBar) {
-      // APPEND NEW BLOCK
-      console.log(`dropped in mid drop zone from side bar`);
-      const clone = dragged.current.element.cloneNode(true);
-      const translateX = `${event.clientX - dragged.current.innerClickX}px`;
-      const translateY = `${event.clientY - dragged.current.innerClickY}px`;
-      clone.style.top = translateY;
-      clone.style.left = translateX;
-      clone.classList.add("w-max", "absolute", "code-block");
-      clone.onDragOver = handleDragOver;
-      event.target.appendChild(clone);
-    } else {
-      // ONLY MOVE THE BLOCK
-      console.log(`Moved within main`);
-      const translateX = `${event.clientX - dragged.current.innerClickX}px`;
-      const translateY = `${event.clientY - dragged.current.innerClickY}px`;
-      dragged.current.element.style.top = translateY;
-      dragged.current.element.style.left = translateX;
-    }
-  }
-
   function handleDrop2(event) {
     event.preventDefault();
     if (!dragged.current.draggedFromSideBar) {
@@ -65,14 +42,6 @@ export default function MidArea({
         ],
       ]);
     }
-
-    // HANDLE DROPPED INSIDE AN EXISTING SET OF BLOCKS
-    // console.log(event.target);
-    // if (event.target.id.match(/main-inner-block/)) {
-    //   const parent = event.target.parentNode;
-    //   const targetBlocksIndex = parent.id.split("-")[3];
-    //   console.log(codeBlocks[targetBlocksIndex]);
-    // }
   }
 
   function handleDragOver(event) {
