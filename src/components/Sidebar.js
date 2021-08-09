@@ -10,7 +10,7 @@ export default function Sidebar({
   codeBlocks,
   setCodeBlocks,
 }) {
-  // HANDLE REMOVING BLOCKS WHEN DRAGGED FROM MAIN EDITOR INTO SIDE BAR
+  // handle removing blocks when dragged from main to side
   function handleDrop(event) {
     event.preventDefault();
     if (!dragged.current.draggedFromSideBar) {
@@ -18,13 +18,14 @@ export default function Sidebar({
     }
   }
 
+  // handle drag over
   function handleDragOver(event) {
     event.preventDefault();
   }
 
+  // handle drag end
   function handleDragEnd(event) {
     event.preventDefault();
-    console.log(`Drag ended`);
     const newCodeBlocks = [...codeBlocks];
     newCodeBlocks.map((blocks) => {
       return blocks.map((block) => {
@@ -32,10 +33,10 @@ export default function Sidebar({
         return block;
       });
     });
-
     setCodeBlocks(newCodeBlocks);
   }
 
+  // capitalize first letter function
   function capitalizeFirstLetter(str) {
     return str[0].toUpperCase() + str.slice(1).toLowerCase();
   }
@@ -78,7 +79,7 @@ export default function Sidebar({
             return (
               <div
                 key={`${mainIndex}-${index}-sidebar`}
-                className={`flex flex-row flex-wrap ${colours[categoryType]} text-white px-2 py-1 my-2 text-sm cursor-pointer`}
+                className={`flex flex-row flex-wrap ${colours[categoryType]} text-white px-2 py-1 my-2 text-sm cursor-pointer border border-gray-300`}
                 draggable
                 onDragStart={(event) =>
                   handleDragStart(event, {

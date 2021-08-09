@@ -9,7 +9,8 @@ export default function MidArea({
   setCodeBlocks,
   currentSprite,
 }) {
-  function handleDrop2(event) {
+  // handle drop over mid area
+  function handleDrop(event) {
     event.preventDefault();
     if (!dragged.current.draggedFromSideBar) {
       const mainIndex = dragged.current.element.parentNode.id.split("-")[3];
@@ -25,7 +26,6 @@ export default function MidArea({
       newCodeBlocks.push(temp);
       setCodeBlocks(newCodeBlocks);
     } else if (event.target.id === "main") {
-      // HANDLE DROPPED INSIDE MAIN PLAYGROUND
       setCodeBlocks([
         ...codeBlocks,
         [
@@ -44,10 +44,12 @@ export default function MidArea({
     }
   }
 
+  // handle drag over mid area
   function handleDragOver(event) {
     event.preventDefault();
   }
 
+  // handle drag enter
   function handleDragEnter(event) {
     if (event.target.id.match(/main-inner-block/)) {
       const targetDimensions = event.target.getBoundingClientRect();
@@ -88,7 +90,7 @@ export default function MidArea({
     <div
       id="main"
       className="flex-1 h-full overflow-auto drop"
-      onDrop={handleDrop2}
+      onDrop={handleDrop}
       onDragOver={handleDragOver}
     >
       {codeBlocks.map((blocks, mainIndex) => {
@@ -110,7 +112,7 @@ export default function MidArea({
                     id={`main-inner-block-${index}`}
                     data-category={block.category}
                     data-subcategory={block.subCategory}
-                    className={`flex flex-row flex-wrap text-white px-2 py-1 text-sm cursor-pointer main-inner-block w-max ${
+                    className={`flex flex-row flex-wrap text-white px-2 py-1 text-sm cursor-pointer main-inner-block w-max border border-gray-300 ${
                       colours[block.category]
                     }`}
                     draggable
