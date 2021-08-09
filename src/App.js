@@ -15,14 +15,13 @@ export default function App() {
   const [currentSprite, setCurrentSprite] = useState(allSprites[0]);
   const dragged = useRef(null);
 
-  // HANDLE DRAG START OF ALL DRAGGABLE ELEMENTS
+  // handle drag start of all draggable elements
   function handleDragStart(event, data) {
     let draggedFromSideBar = true;
-    console.log(event.target.parentNode.id);
     if (event.target.parentNode.id.match(/main-outer/)) {
       draggedFromSideBar = false;
     }
-    // REFERENCE TO DRAGGED ELEMENT
+    // reference to dragged element
     dragged.current = {
       element: event.target,
       data,
