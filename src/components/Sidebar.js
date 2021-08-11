@@ -26,13 +26,11 @@ export default function Sidebar({
   // handle drag end
   function handleDragEnd(event) {
     event.preventDefault();
-    const newCodeBlocks = [...codeBlocks];
-    newCodeBlocks.map((blocks) => {
-      return blocks.map((block) => {
-        block.valid = true;
-        return block;
-      });
-    });
+    console.log(`Drag ended`);
+    let newCodeBlocks = [...codeBlocks];
+    newCodeBlocks = newCodeBlocks
+      .filter((blocks) => blocks.length > 0)
+      .map((blocks) => blocks.filter((block) => block.valid));
     setCodeBlocks(newCodeBlocks);
   }
 
