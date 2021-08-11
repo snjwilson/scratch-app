@@ -1,5 +1,7 @@
 # Scratch starter project
 
+Check out the hosted application here - https://sleepy-stonebraker-30b8f4.netlify.app/
+
 To get started:
 
 - Run `npm i` to install dependencies
