@@ -6,15 +6,15 @@ export default {
   motion: [
     {
       inner: "Move 10 steps",
-      functionality: null,
+      functionality: { x: 10 },
     },
     {
       inner: "Move 20 steps",
-      functionality: null,
+      functionality: { x: 20 },
     },
     {
       inner: "Move 30 steps",
-      functionality: null,
+      functionality: { x: 30 },
     },
     {
       inner: (
@@ -25,7 +25,7 @@ export default {
           {"15 degrees"}
         </>
       ),
-      functionality: null,
+      functionality: { rotate: -15 },
     },
     {
       inner: (
@@ -35,7 +35,7 @@ export default {
           {"15 degrees"}
         </>
       ),
-      functionality: null,
+      functionality: { rotate: 15 },
     },
     {
       inner: (
@@ -46,7 +46,7 @@ export default {
           {"30 degrees"}
         </>
       ),
-      functionality: null,
+      functionality: { rotate: -30 },
     },
     {
       inner: (
@@ -56,11 +56,14 @@ export default {
           {"30 degrees"}
         </>
       ),
-      functionality: null,
+      functionality: { rotate: 30 },
     },
     {
       inner: "Go to random Position",
-      functionality: null,
+      functionality: {
+        x: 1,
+        y: 1,
+      },
     },
   ],
   // LOOKS CATEGORY

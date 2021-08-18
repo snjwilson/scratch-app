@@ -7,8 +7,10 @@ export default function MidArea({
   handleDragStart,
   codeBlocks,
   setCodeBlocks,
-  currentSprite,
+  selectedSprites,
+  setSelectedSprites,
 }) {
+  const currentSprite = selectedSprites.find((sprite) => sprite.currentSprite);
   const [draggingOverBlocks, setDraggingOverBlocks] = useState(false);
   const [appendAtIndex, setAppendAtIndex] = useState(null);
   // handle drop over mid area
@@ -202,6 +204,81 @@ export default function MidArea({
     }
   }
 
+  function handleFunctionality(blocks) {
+    let {
+      x: translateX,
+      y: translateY,
+      rotate: rotateDeg,
+      name,
+    } = currentSprite;
+    const sprite = document.getElementById(name);
+    console.log(sprite.style.transform);
+    // let transformString = sprite.style.transform;
+    let transformString = "";
+    blocks.map((block) => {
+      if (block.category === "motion") {
+        const { x, y, rotate } =
+          categories[block.category][block.subCategory].functionality;
+        if (x && !y) {
+          translateX += x;
+          transformString = /translateX\([0-9]+px\)/.test(transformString)
+            ? transformString.replace(
+                /translateX\([0-9]+px\)/,
+                `translateX(${translateX}px)`
+              )
+            : transformString + `translateX(${translateX}px) `;
+          // transformString = `translateX(${translateX}px) translateY(${translateY}px) rotate(${rotateDeg}deg)`;
+        } else if (y && !x) {
+          translateY += y;
+          transformString = /translateY\([0-9]+px\)/.test(transformString)
+            ? transformString.replace(
+                /translateY\([0-9]+px\)/,
+                `translateY(${translateY}px)`
+              )
+            : transformString + `translateY(${translateY}px) `;
+          // transformString = `translateY(${translateY}px) translateX(${translateX}px) rotate(${rotateDeg}deg)`;
+        } else if (rotate) {
+          rotateDeg += rotate;
+          transformString = /rotate\(-{0,1}[0-9]+deg\)/.test(transformString)
+            ? transformString.replace(
+                /rotate\(-{0,1}[0-9]+deg\)/,
+                `rotate(${rotateDeg}deg)`
+              )
+            : transformString + `rotate(${rotateDeg}deg) `;
+          // transformString = `rotate(${rotateDeg}deg) translateX(${translateX}px) translateY(${translateY}px)`;
+        } else if (x && y) {
+          translateX = Math.round(x * Math.random() * 350);
+          translateY = Math.round(y * Math.random() * 350);
+          transformString = /translateX\([0-9]+px\)/.test(transformString)
+            ? transformString.replace(
+                /translateX\([0-9]+px\)/,
+                `translateX(${translateX}px)`
+              )
+            : transformString + `translateX(${translateX}px) `;
+          transformString = /translateY\([0-9]+px\)/.test(transformString)
+            ? transformString.replace(
+                /translateY\([0-9]+px\)/,
+                `translateY(${translateY}px)`
+              )
+            : transformString + `translateY(${translateY}px) `;
+          // transformString = `translateX(${translateX}px) translateY(${translateY}px) rotate(${rotateDeg}deg)`;
+        }
+        console.log(transformString);
+        sprite.style.transform = transformString;
+      }
+    });
+    currentSprite.x = translateX;
+    currentSprite.y = translateY;
+    currentSprite.rotate = rotateDeg;
+    const newSelectedSprites = selectedSprites.map((sprite) => {
+      if (sprite.name === name) {
+        return currentSprite;
+      }
+      return sprite;
+    });
+    setSelectedSprites(newSelectedSprites);
+  }
+
   return (
     <div
       id="main"
@@ -221,6 +298,7 @@ export default function MidArea({
             onDragEnter={handleDragEnter}
             onDragOver={handleMouseMove}
             onDragLeave={handleDragLeave}
+            onClick={() => handleFunctionality(blocks)}
           >
             {blocks.map((block, index) => {
               if (block.sprite === currentSprite.name) {

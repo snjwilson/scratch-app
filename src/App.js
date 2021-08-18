@@ -12,7 +12,6 @@ export default function App() {
   const [category, setCategory] = useState("motion");
   const [showModal, setShowModal] = useState(false);
   const [selectedSprites, setSelectedSprites] = useState([allSprites[0]]);
-  const [currentSprite, setCurrentSprite] = useState(allSprites[0]);
   const dragged = useRef(null);
 
   // handle drag start of all draggable elements
@@ -64,22 +63,24 @@ export default function App() {
               handleDragStart={handleDragStart}
               codeBlocks={codeBlocks}
               setCodeBlocks={setCodeBlocks}
+              selectedSprites={selectedSprites}
+              setSelectedSprites={setSelectedSprites}
             />{" "}
             <MidArea
               dragged={dragged}
               handleDragStart={handleDragStart}
               codeBlocks={codeBlocks}
               setCodeBlocks={setCodeBlocks}
-              currentSprite={currentSprite}
+              selectedSprites={selectedSprites}
+              setSelectedSprites={setSelectedSprites}
             />
           </div>
           <div className="w-1/3 h-full overflow-hidden flex flex-col border-t border-l border-gray-200 rounded-tl-xl ml-2">
-            <PreviewArea />
+            <PreviewArea selectedSprites={selectedSprites} />
             <SpritesArea
               setShowModal={setShowModal}
               selectedSprites={selectedSprites}
-              currentSprite={currentSprite}
-              setCurrentSprite={setCurrentSprite}
+              setSelectedSprites={setSelectedSprites}
             />
           </div>
         </div>

@@ -9,7 +9,11 @@ export default function Sidebar({
   handleDragStart,
   codeBlocks,
   setCodeBlocks,
+  selectedSprites,
+  setSelectedSprites,
 }) {
+  const currentSprite = selectedSprites.find((sprite) => sprite.currentSprite);
+
   // handle removing blocks when dragged from main to side
   function handleDrop(event) {
     event.preventDefault();
@@ -37,6 +41,74 @@ export default function Sidebar({
   // capitalize first letter function
   function capitalizeFirstLetter(str) {
     return str[0].toUpperCase() + str.slice(1).toLowerCase();
+  }
+
+  function handleFunctionality(blocks) {
+    let {
+      x: translateX,
+      y: translateY,
+      rotate: rotateDeg,
+      name,
+    } = currentSprite;
+    const sprite = document.getElementById(name);
+    let transformString = sprite.style.transform;
+    blocks.map((block) => {
+      if (block.category === "motion") {
+        const { x, y, rotate } =
+          categories[block.category][block.subCategory].functionality;
+        if (x && !y) {
+          translateX += x;
+          transformString = /translateX\([0-9]+px\)/.test(transformString)
+            ? transformString.replace(
+                /translateX\([0-9]+px\)/,
+                `translateX(${translateX}px)`
+              )
+            : transformString + `translateX(${translateX}px) `;
+        } else if (y && !x) {
+          translateY += y;
+          transformString = /translateY\([0-9]+px\)/.test(transformString)
+            ? transformString.replace(
+                /translateY\([0-9]+px\)/,
+                `translateY(${translateY}px)`
+              )
+            : transformString + `translateY(${translateY}px) `;
+        } else if (rotate) {
+          rotateDeg += rotate;
+          transformString = /rotate\(-{0,1}[0-9]+deg\)/.test(transformString)
+            ? transformString.replace(
+                /rotate\(-{0,1}[0-9]+deg\)/,
+                `rotate(${rotateDeg}deg)`
+              )
+            : transformString + `rotate(${rotateDeg}deg) `;
+        } else if (x && y) {
+          translateX = Math.round(x * Math.random() * 350);
+          translateY = Math.round(y * Math.random() * 350);
+          transformString = /translateX\([0-9]+px\)/.test(transformString)
+            ? transformString.replace(
+                /translateX\([0-9]+px\)/,
+                `translateX(${translateX}px)`
+              )
+            : transformString + `translateX(${translateX}px) `;
+          transformString = /translateY\([0-9]+px\)/.test(transformString)
+            ? transformString.replace(
+                /translateY\([0-9]+px\)/,
+                `translateY(${translateY}px)`
+              )
+            : transformString + `translateY(${translateY}px) `;
+        }
+        sprite.style.transform = transformString;
+      }
+    });
+    currentSprite.x = translateX;
+    currentSprite.y = translateY;
+    currentSprite.rotate = rotateDeg;
+    const newSelectedSprites = selectedSprites.map((sprite) => {
+      if (sprite.name === name) {
+        return currentSprite;
+      }
+      return sprite;
+    });
+    setSelectedSprites(newSelectedSprites);
   }
 
   return (
@@ -86,6 +158,14 @@ export default function Sidebar({
                   })
                 }
                 onDragEnd={handleDragEnd}
+                onClick={() =>
+                  handleFunctionality([
+                    {
+                      category: categoryType,
+                      subCategory: index,
+                    },
+                  ])
+                }
               >
                 {type.inner}
               </div>

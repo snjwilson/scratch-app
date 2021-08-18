@@ -1,10 +1,10 @@
 import React from "react";
-import CatSprite from "./CatSprite";
+import CatSprite from "./sprites/CatSprite";
 
-export default function PreviewArea() {
+export default function PreviewArea({ selectedSprites }) {
   return (
     <div className="flex-none h-1/2 bg-white overflow-y-auto p-2 border-b rounded-bl-xl">
-      <CatSprite />
+      {selectedSprites.map((sprite) => sprite.component)}
     </div>
   );
 }

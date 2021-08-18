@@ -1,12 +1,9 @@
 import React, { useState } from "react";
 import Icon from "./Icon";
 
-function SpritesArea({
-  selectedSprites,
-  setShowModal,
-  currentSprite,
-  setCurrentSprite,
-}) {
+function SpritesArea({ selectedSprites, setSelectedSprites, setShowModal }) {
+  const currentSprite = selectedSprites.find((sprite) => sprite.currentSprite);
+
   const [addSpriteHoveredOn, setAddSpriteHoveredOn] = useState({
     show: false,
     text: "",
@@ -38,19 +35,27 @@ function SpritesArea({
         {selectedSprites.map((sprite, index) => (
           <div
             onClick={() => {
-              setCurrentSprite(sprite);
+              const newSelectedSprites = selectedSprites.map(
+                (selectedSprite) => {
+                  if (selectedSprite.name === sprite.name) {
+                    selectedSprite.currentSprite = true;
+                  } else {
+                    selectedSprite.currentSprite = false;
+                  }
+                  return selectedSprite;
+                }
+              );
+              setSelectedSprites(newSelectedSprites);
             }}
             key={`sprites-area-${index}`}
             className={`border-gray-300 border-4 rounded-lg w-max transform scale-75 bg-gray-100 hover:border-blue-400 hover:bg-white ${
-              currentSprite.name === sprite.name ? "border-blue-500" : ""
+              sprite.currentSprite ? "border-blue-500" : ""
             }`}
           >
-            <div className="p-2">{sprite.component}</div>
+            <div className="p-2 h-3/4">{sprite.component}</div>
             <div
               className={`text-center p-2 ${
-                currentSprite.name === sprite.name
-                  ? "bg-blue-400 text-white"
-                  : ""
+                sprite.currentSprite ? "bg-blue-400 text-white" : ""
               }`}
             >
               {sprite.name}
